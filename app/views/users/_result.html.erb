@@ -2,6 +2,21 @@
     <div class="card card-header results-block">
         <strong>Symbol: </strong><%= @stock.symbol %>
         <strong>Price: </strong><%= @stock.previous_close %>
-        <%= button_to 'Add', user_stocks_path(user: current_user, symbol: @stock.symbol), class: "btn btn-success btn-xs"%>
+        <% if current_user.can_track_stock?(@stock.symbol) %>
+            <%= button_to 'Add', user_stocks_path(user: current_user, symbol: @stock.symbol), class: "btn btn-success btn-xs"%>
+        <% else %>
+            <span class="badge badge-secondary text-dark">
+                You are already tracking
+                <% if !current_user.under_stock_limit? %>
+                    10 stocks
+                <% end %>
+                <% if !current_user.under_stock_limit? && current_user.stock_already_tracked(@stock.symbol) %>
+                   and
+                <% end %>
+                <% if current_user.stock_already_tracked(@stock.symbol) %>
+                    this stock
+                <% end %>
+            </span>
+        <% end %>
     </div>
 <% end %>

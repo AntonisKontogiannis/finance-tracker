@@ -16,7 +16,7 @@
                     <th scope="row"><%= stock.id %></th>
                     <td><%= stock.symbol %></td>
                     <td><%= stock.previous_close %></td>
-                    <td><%= "Actions placeholder" %></td>
+                    <td><%= button_to "Delete", user_stock_path(stock), method: :delete, class: "btn btn-sm btn-warning" %></td>
                     </tr>
                 <% end %>
             <% end %>
