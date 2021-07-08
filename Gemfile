@@ -22,7 +22,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
 gem 'devise-bootstrap-views', '~>1.0'
-gem 'iex-ruby-client'
+gem 'alphavantagerb', '~> 1.4'
 gem "font-awesome-rails"
 
 # Use Active Storage variant

@@ -3,10 +3,9 @@ class StocksController < ApplicationController
     def search
         if params[:stock].present?
             @stock = Stock.new_lookup(params[:stock])
-            if @stock 
-                respond_to do |format|
-                    format.js { render partial: 'users/result'}
-                end
+            @stock = @stock.quote
+            if @stock.previous_close 
+                render 'users/my_portfolio'
             else
                 flash[:alert] = "Enter a valid symbol to continue"
                 redirect_to my_portfolio_path
@@ -16,4 +15,5 @@ class StocksController < ApplicationController
             redirect_to my_portfolio_path
         end
     end
+
 end

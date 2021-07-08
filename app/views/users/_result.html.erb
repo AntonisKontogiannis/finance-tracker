@@ -1,7 +1,7 @@
 <% if @stock %>
     <div class="card card-header results-block">
-        <strong>Symbol: </strong><%= @stock.ticker %>
-        <strong>Name: </strong><%= @stock.name %>
-        <strong>Price: </strong><%= @stock.last_price %>
+        <strong>Symbol: </strong><%= @stock.symbol %>
+        <strong>Price: </strong><%= @stock.previous_close %>
+        <%= button_to 'Add', user_stocks_path(user: current_user, symbol: @stock.symbol), class: "btn btn-success btn-xs"%>
     </div>
 <% end %>

@@ -1,0 +1,26 @@
+<div class="row">
+        <div class="col-10">
+            <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ticker</th>
+                <th scope="col">Price</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% if current_user.stocks %>
+                <% current_user.stocks.each do |stock| %>
+                    <tr>
+                    <th scope="row"><%= stock.id %></th>
+                    <td><%= stock.symbol %></td>
+                    <td><%= stock.previous_close %></td>
+                    <td><%= "Actions placeholder" %></td>
+                    </tr>
+                <% end %>
+            <% end %>
+            </tbody>
+            </table>
+        </div>
+    </div>
