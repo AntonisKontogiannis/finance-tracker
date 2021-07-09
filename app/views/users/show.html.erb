@@ -1,0 +1,72 @@
+<h1><%= "#{@user.first_name}'s Profile" %></h1>
+<div class="card card-header results-block">
+    <table class="col-md-12">
+        <tbody>
+            <tr><td><strong>First Name: </strong><%= @user.first_name %></td></tr>
+            <tr><td><strong>Last Name: </strong><%= @user.last_name %></td></tr>
+            <tr><td><strong>Email: </strong><%= @user.email %>
+            <% if !(current_user.friends.include?(@user)) %>
+                <%= button_to 'Follow', friendships_path(friend: @user), method: :post, class: "btn btn-sm btn-success"%></td>
+            <% else %>
+                <%= button_to "Delete", friendship_path(@user), method: :delete %>
+            <% end %>
+            </td></tr>
+        </tbody>
+    </table>
+</div>
+<% if @user.stocks %>
+    <h1><%= "#{@user.first_name}'s tracking stocks" %></h1>
+    <div class="row">
+        <div class="col-10">
+            <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ticker</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @user.stocks.each do |stock|%>
+                    <tr>
+                    <th scope="row"><%= stock.id %></th>
+                    <td><%= stock.symbol %></td>
+                    <td><%= stock.previous_close %></td>
+                    <% if current_user.can_track_stock?(stock.symbol) %>
+                        <td><%= button_to 'Add', user_stocks_path(user: current_user, symbol: stock.symbol), class: "btn btn-success btn-xs"%></td> 
+                    <% else %>
+                        <% if !current_user.under_stock_limit? %>
+                            <td><%= "Stock Limit"%></td>
+                        <% end %>
+                        <% if current_user.stock_already_tracked(stock.symbol)%>
+                            <td><%= "Tracked"%></td>
+                        <% end %>
+                    <% end %>
+                    </tr>
+                <% end %>
+            </tbody>
+            </table>
+        </div>
+    </div>
+<% end %>
+<% if @user.friends.any? %>
+    <h1><%= "#{@user.first_name}'s friends" %></h1>
+    <p>
+    <% @user.friends.each do |friend|%>
+        <div class="card card-header results-block">
+            <table class="col-md-12">
+                <tbody>
+                    <tr><td><strong>First Name: </strong><%= friend.first_name %></td></tr>
+                    <tr><td><strong>Last Name: </strong><%= friend.last_name %></td></tr>
+                    <tr><td><strong>Email: </strong><%= friend.email %>
+                    <tr><td><%= link_to 'View Profile', user_path(friend), class: "btn btn-sm btn-success"%>
+                    <% if !(current_user.friends.include?(friend)) %>
+                        <%= button_to 'Follow', friendships_path(friend: friend), method: :post, class: "btn btn-sm btn-success"%></td>
+                    <% end %>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+    <% end %></p>
+<% end %>

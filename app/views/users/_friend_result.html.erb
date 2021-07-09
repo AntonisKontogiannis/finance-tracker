@@ -1,0 +1,68 @@
+<h1>My_friends</h1>
+<% if current_user.friends.any? %>
+    <div class="row">
+        <div class="col-10">
+            <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% if current_user.friends %>
+                <% current_user.friends.each do |friend| %>
+                    <tr>
+                    <td><%= friend.first_name %></td>
+                    <td><%= friend.last_name %></td>
+                    <th scope="row"><%= friend.email %></th>
+                    <td><%= button_to "Delete", friendship_path(friend), method: :delete %>
+                    <%= link_to 'View Profile', user_path(friend), class: "btn btn-sm btn-success mt-2"%></td>
+                    </tr>
+                <% end %>
+            <% end %>
+            </tbody>
+            </table>
+        </div>
+    </div>
+<% else %>
+    You don't have any friend. Please make some!
+<% end %>
+<div class='search-area'>
+    <h3>Search friends:</h3>
+    <%= form_tag search_friend_path, remote: true, method: :get do %>
+        <div class="form-group row">
+            <div class="col-sm-9 no-right-padding">
+                <%= text_field_tag :user, params[:user], placeholder: "Search for friends with first name, last name or email:", autofocus: true, class: "form-control form-control-lg" %>
+            </div>
+            <div class="col-sm-3 no-left-padding">
+                <%= button_tag type: :submit, class: "btn btn-success" do%>
+                    <%= fa_icon 'search 2x' %>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+</div>
+<%if @friend1 %>
+    <% @friend1.each do |fri| %>
+        <% if fri != current_user %>
+            <div class="card card-header results-block">
+                <table class="col-md-12">
+                    <tbody>
+                        <tr><td><strong>First Name: </strong><%= fri.first_name %></td></tr>
+                        <tr><td><strong>Last Name: </strong><%= fri.last_name %></td></tr>
+                        <tr><td><strong>Email: </strong><%= fri.email %>
+                        <tr><td><%= link_to 'View Profile', user_path(fri), class: "btn btn-sm btn-success"%>
+                        <% if !(current_user.friends.include?(fri)) %>
+                            <%= button_to 'Follow', friendships_path(friend: fri), method: :post, class: "btn btn-sm btn-success"%></td>
+                        <% end %>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>
+        <% end %>
+    <% end %>
+<% end %>
+

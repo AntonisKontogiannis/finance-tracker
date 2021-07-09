@@ -1,34 +1,4 @@
-<h1>My_friends</h1>
-<% if current_user.friends.any? %>
-    <div class="row">
-        <div class="col-10">
-            <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <% if current_user.friends %>
-                <% current_user.friends.each do |friend| %>
-                    <tr>
-                    <td><%= friend.first_name %></td>
-                    <td><%= friend.last_name %></td>
-                    <th scope="row"><%= friend.email %></th>
-                    <td><%= button_to "Delete", "#" %></td>
-                    </tr>
-                <% end %>
-            <% end %>
-            </tbody>
-            </table>
-        </div>
-    </div>
-<% else %>
-    You don't have any friend. Please make some!
-<% end %>
+<%= render 'users/friend_result' %>
 
 
             
