@@ -8,7 +8,7 @@
             <% if !(current_user.friends.include?(@user)) %>
                 <%= button_to 'Follow', friendships_path(friend: @user), method: :post, class: "btn btn-sm btn-success"%></td>
             <% else %>
-                <%= button_to "Delete", friendship_path(@user), method: :delete %>
+                <%= button_to "Delete", friendship_path(@user), method: :delete, class: "btn btn-sm btn-warning" %>
             <% end %>
             </td></tr>
         </tbody>
