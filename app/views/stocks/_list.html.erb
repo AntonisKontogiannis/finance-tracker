@@ -1,26 +1,52 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>  
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 <div class="row">
         <div class="col-10">
-            <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">Ticker</th>
-                <th scope="col">Price</th>
-                <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            <% if current_user.stocks %>
-                <% current_user.stocks.each do |stock| %>
-                    <tr>
-                    <th scope="row"><%= stock.id %></th>
-                    <td><%= stock.symbol %></td>
-                    <td><%= stock.previous_close %></td>
-                    <td><%= button_to "Delete", user_stock_path(stock), method: :delete, class: "btn btn-sm btn-warning" %></td>
-                    </tr>
-                <% end %>
+            <% if current_user.stocks.any? %>
+                    <div id="stock-list">
+                    <input type="text" class="search mt-5" placeholder="Search your stocks"/>
+                    <table class="table table-bordered table-hover mt-2 text-center">
+                        <thead>
+                            <tr>
+                            <th scope="col"><button class="sort" data-sort="serial number">
+                            #
+                            </button></th>
+                            <th scope="col"> <button class="sort" data-sort="symbol">
+                            Ticker
+                            </button></th>
+                            <th scope="col"><button class="sort" data-sort="price">
+                            Price
+                            </button></th>
+                            <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
+                        <ul class="list">
+                            <% serial_number = 1 %>
+                            <% current_user.stocks.each do |stock| %>
+                                <li><ul class="stock-details">
+                                        <li><div class="serial number"><%= serial_number %></div></li>
+                                            <% serial_number += 1 %>
+                                        <li><div class="symbol"><%= stock.symbol %></div></li>
+                                        <li><div class="price"><%= stock.previous_close %></div></li>
+                                        <li><div><%= button_to("Delete", user_stock_path(stock), method: :delete, class: "btn btn-sm btn-warning")%></div></li>
+                                    </ul>
+                                </li>
+                            <% end %>
+                        </ul>
+                        <ul class="pagination"></ul>
+                    </div>
+            <% else %>
+                You don't track any stocks. Please track some!
             <% end %>
-            </tbody>
-            </table>
         </div>
     </div>
+
+<script>
+    var monkeyList = new List('stock-list', {
+    valueNames: ['serial number', 'symbol', 'price'],
+    page: 3,
+    pagination: true
+    });
+</script>
+

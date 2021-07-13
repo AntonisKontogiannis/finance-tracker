@@ -8,7 +8,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item <%= 'active' if request.path ==  my_portfolio_path %>">
-            <%= link_to 'My_portfolio', my_portfolio_path, class: "nav-link" %>
+            <%= link_to 'My_portfolio', my_portfolio_path, class: "nav-link"%>
           </li>
           <li class="nav-item <%= "active" if request.path ==  friendships_path %>">
             <%= link_to 'Friends', friendships_path, class: "nav-link" %>
@@ -34,7 +34,7 @@
           <li class='nav-item'>
             <%= button_to 'Logout', destroy_user_session_path, class: 'btn btn-xs btn-danger logout-button', method: :delete %>
           </li>
-          <li class='nav-item mt-2'>
+          <li class='nav-item user-name'>
             <%= "Stock tracking: " %><%= current_user.stocks.count %>
           </li>
         </ul>

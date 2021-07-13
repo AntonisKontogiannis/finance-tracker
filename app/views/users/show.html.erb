@@ -61,12 +61,13 @@
                     <tr><td><strong>Last Name: </strong><%= friend.last_name %></td></tr>
                     <tr><td><strong>Email: </strong><%= friend.email %>
                     <tr><td><%= link_to 'View Profile', user_path(friend), class: "btn btn-sm btn-success"%>
-                    <% if !(current_user.friends.include?(friend)) %>
+                    <% if !(current_user.friends.include?(friend)) && !(@user.friends.include?(current_user)) %>
                         <%= button_to 'Follow', friendships_path(friend: friend), method: :post, class: "btn btn-sm btn-success"%></td>
                     <% end %>
                     </td></tr>
                 </tbody>
             </table>
         </div>
-    <% end %></p>
+    <% end %>
+    </p>
 <% end %>
